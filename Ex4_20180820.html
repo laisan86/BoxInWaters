@@ -1,0 +1,101 @@
+<html>
+  <head>
+  <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+  <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js"
+  type="text/javascript" charset="utf-8"></script>
+  <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js"
+  type="text/javascript" charset="utf-8"></script>
+  <script src="http://js.api.here.com/v3/3.0/mapsjs-ui.js"
+  type="text/javascript" charset="utf-8"></script>
+  <script src="http://js.api.here.com/v3/3.0/mapsjs-pano.js"
+  type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"
+  type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" type="text/css"
+  href="http://js.api.here.com/v3/3.0/mapsjs-ui.css" />
+  </head>
+  <body>
+  <table border="0">
+	<tr>
+		<td>
+			<div style="width: 800px; height: 600px" id="mapContainer"></div>
+		</td>
+		<td>
+		</td>
+	</tr>
+  </table>
+  <script type="text/javascript" charset="utf-8">
+	// Initialize the platform object:
+	var platform = new H.service.Platform({
+		'app_id': '6hcX8jxZewzLXms4TAFW',
+		'app_code': 'rOSb-OIQPe6GkN5YzO-0jw'
+	});
+
+	// Get the default map types from the Platform object:
+	var defaultLayers = platform.createDefaultLayers();
+
+	// Instantiate the map:
+	var map = new H.Map(
+		document.getElementById('mapContainer'),
+			defaultLayers.normal.map,
+		{
+			zoom: 14,
+			center: { lng: 121.5281493, lat: 24.971906 }
+		});
+
+	// Create the default UI:
+	var ui = H.ui.UI.createDefault(map, defaultLayers, 'en-US');
+
+	var mapSettings = ui.getControl('mapsettings');
+	var zoom = ui.getControl('zoom');
+	var scalebar = ui.getControl('scalebar');
+	var panorama = ui.getControl('panorama');
+	panorama.setAlignment('top-left');
+	mapSettings.setAlignment('top-left');
+	zoom.setAlignment('top-left');
+	scalebar.setAlignment('top-left');
+	
+	// Create an info bubble object at a specific geographic location:
+	//var bubble = new H.ui.InfoBubble({ lng: 121.5281493, lat: 24.971906 }, {
+	//	content: '<b>測試站中心</b>'
+	//});
+
+	// Add info bubble to the UI:
+	//ui.addBubble(bubble);
+	
+	var icon1 = new H.map.Icon('graphics/boat.png'),
+		icon2 = new H.map.Icon('graphics/submarine.png');
+	var marker1 = new H.map.Marker({ lng: 121.5336946, lat: 24.9641154 }, {icon: icon1}),
+		marker2 = new H.map.Marker({ lng: 121.534113, lat: 24.9566745 }, {icon: icon2}),
+		marker3 = new H.map.Marker({ lng: 121.5281493, lat: 24.9719108 }, {icon: icon2}),
+		marker4 = new H.map.Marker({ lng: 121.5181342, lat: 24.9769671 }, {icon: icon1});
+
+	marker1.addEventListener('pointerdown',marker1_plot);
+	marker2.addEventListener('pointerdown',marker2_plot);
+	marker3.addEventListener('pointerdown',marker3_plot);
+	marker4.addEventListener('pointerdown',marker4_plot);
+
+	function marker1_plot(evt) {
+		var opened1 = window.open("https://thingspeak.com/channels/536411");
+	}
+	function marker2_plot(evt) {
+		var opened2 = window.open("https://thingspeak.com/channels/563386");
+	}
+	function marker3_plot(evt) {
+		var opened3 = window.open("https://thingspeak.com/channels/563393");
+	}
+	function marker4_plot(evt) {
+		var opened4 = window.open("https://thingspeak.com/channels/563394");
+	}
+
+	map.addObject(marker1);
+	map.addObject(marker2);
+	map.addObject(marker3);
+	map.addObject(marker4);
+
+	var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+	switchMapLanguage(map , platform);
+  </script>
+  </body>
+</html>
